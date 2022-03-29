@@ -35,8 +35,6 @@ public class EditActivity extends AppCompatActivity {
 
     private TreinoInfo exercicio;
     private View layout;
-    private Button calcular;
-    private Button salvar;
 
 
     private ImageButton foto;
@@ -52,8 +50,6 @@ public class EditActivity extends AppCompatActivity {
     private final int CAMERA = 1;
     private final int GALERIA = 2;
 
-    private final String IMAGE_DIR = "/FotosContatos";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +57,8 @@ public class EditActivity extends AppCompatActivity {
 
         exercicio = getIntent().getParcelableExtra("exercicio");
         layout = findViewById(R.id.main_layout);
-        salvar = findViewById(R.id.buttonSalvar);
-        calcular = findViewById(R.id.buttonCalcular);
+        Button salvar = findViewById(R.id.buttonSalvar);
+        Button calcular = findViewById(R.id.buttonCalcular);
 
         foto = findViewById(R.id.imageExercicio);
         nome = findViewById(R.id.nomeExercicio);
@@ -71,19 +67,11 @@ public class EditActivity extends AppCompatActivity {
         repeticoes = findViewById(R.id.repExercicio);
         series = findViewById(R.id.seriesExercicio);
 
-
         nome.setText(exercicio.getNome());
         obs.setText(exercicio.getObservacao());
         carga.setText(exercicio.getCarga());
         repeticoes.setText(exercicio.getRepeticoes());
         series.setText(exercicio.getSeries());
-
-        foto.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertaImagem();
-            }
-        }));
 
         File imgFile = new File(exercicio.getFoto());
         if(imgFile.exists()){
@@ -91,38 +79,34 @@ public class EditActivity extends AppCompatActivity {
             foto.setImageBitmap(bitmap);
         }
 
-        salvar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        foto.setOnClickListener((view -> alertaImagem()));
 
-                exercicio.setNome(nome.getText().toString());
-                exercicio.setObservacao(obs.getText().toString());
-                exercicio.setCarga(carga.getText().toString());
-                exercicio.setRepeticoes(repeticoes.getText().toString());
-                exercicio.setSeries(series.getText().toString());
+        salvar.setOnClickListener(view -> {
 
-                if (exercicio.getNome().equals("")){
-                    Toast.makeText(EditActivity.this, "Necessario passar o nome!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            exercicio.setNome(nome.getText().toString());
+            exercicio.setObservacao(obs.getText().toString());
+            exercicio.setCarga(carga.getText().toString());
+            exercicio.setRepeticoes(repeticoes.getText().toString());
+            exercicio.setSeries(series.getText().toString());
 
-                Intent i = new Intent();
-                i.putExtra("exercicio", exercicio);
-                setResult(RESULT_OK, i);
-                finish();
+            if (exercicio.getNome().equals("")){
+                Toast.makeText(EditActivity.this, "Necessario passar o nome!", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            Intent i = new Intent();
+            i.putExtra("exercicio", exercicio);
+            setResult(RESULT_OK, i);
+            finish();
         });
 
         ValorCargaTotal = findViewById(R.id.textVolumeTotal);
 
-        calcular.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Volume = Integer.parseInt(carga.getText().toString()) *
-                         Integer.parseInt(series.getText().toString()) *
-                         Integer.parseInt(repeticoes.getText().toString());
-                ValorCargaTotal.setText(new StringBuilder().append("Volume do exercício: ").append(String.valueOf(Volume)).append("kg").toString());
-            }
+        calcular.setOnClickListener(view -> {
+            Volume = Integer.parseInt(carga.getText().toString()) *
+                     Integer.parseInt(series.getText().toString()) *
+                     Integer.parseInt(repeticoes.getText().toString());
+            ValorCargaTotal.setText(new StringBuilder().append("Volume do exercício: ").append(Volume).append("kg").toString());
         });
 
     }
@@ -130,19 +114,9 @@ public class EditActivity extends AppCompatActivity {
     private void alertaImagem() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Selecione a Fonte da Imagem");
-        builder.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i){
-                clicaTirarFoto();
-            }
-        });
+        builder.setPositiveButton("Camera", (dialogInterface, i) -> clicaTirarFoto());
 
-        builder.setNegativeButton("Galeria", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                clicaCarregaImagem();
-            }
-        });
+        builder.setNegativeButton("Galeria", (dialogInterface, i) -> clicaCarregaImagem());
 
         builder.create().show();
     }
@@ -160,14 +134,9 @@ public class EditActivity extends AppCompatActivity {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.CAMERA)){
             Snackbar.make(layout, "É necessário permitir para utilizar a camera",
-                    Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ActivityCompat.requestPermissions(EditActivity.this,
+                    Snackbar.LENGTH_INDEFINITE).setAction("OK", view -> ActivityCompat.requestPermissions(EditActivity.this,
                             new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            CAMERA);
-                }
-            }).show();
+                            CAMERA)).show();
 
         } else {
             ActivityCompat.requestPermissions(this,
@@ -196,14 +165,9 @@ public class EditActivity extends AppCompatActivity {
                 Manifest.permission.READ_EXTERNAL_STORAGE)){
 
             Snackbar.make(layout, "É necessário permitir para utilizar a galeria!",
-                    Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ActivityCompat.requestPermissions(EditActivity.this,
+                    Snackbar.LENGTH_INDEFINITE).setAction("OK", view -> ActivityCompat.requestPermissions(EditActivity.this,
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            GALERIA);
-                }
-            }).show();
+                            GALERIA)).show();
 
         } else {
             ActivityCompat.requestPermissions(this,
@@ -255,6 +219,7 @@ public class EditActivity extends AppCompatActivity {
     private String saveImage(Bitmap bitmap){
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
+        String IMAGE_DIR = "/FotosContatos";
         File directory = new File(Environment.getExternalStorageDirectory() + IMAGE_DIR);
 
         if(!directory.exists()){

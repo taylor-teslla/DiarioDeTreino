@@ -12,12 +12,14 @@ public class TreinoInfo implements Parcelable {
     private String repeticoes = "";
     private String series = "";
 
+    private Long id = -1L;
+
     TreinoInfo() {
 
     }
 
     private TreinoInfo( Parcel in) {
-        String[] data = new String[6];
+        String[] data = new String[7];
         in.readStringArray(data);
         setFoto(data[0]);
         setNome(data[1]);
@@ -25,6 +27,7 @@ public class TreinoInfo implements Parcelable {
         setCarga(data[3]);
         setRepeticoes(data[4]);
         setSeries(data[5]);
+        setId(Long.parseLong(data[6]));
     }
 
     public String getFoto() {
@@ -75,6 +78,14 @@ public class TreinoInfo implements Parcelable {
         this.series = series;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -83,7 +94,7 @@ public class TreinoInfo implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeStringArray(new String[] {
-                getFoto(), getNome(), getObservacao(), String.valueOf(getCarga()), String.valueOf(getRepeticoes()), String.valueOf(getSeries())
+                getFoto(), getNome(), getObservacao(), getCarga(), getRepeticoes(), getSeries(), String.valueOf(getId())
         });
     }
 
