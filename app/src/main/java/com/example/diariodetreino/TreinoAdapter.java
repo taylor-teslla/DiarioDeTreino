@@ -40,8 +40,8 @@ public class TreinoAdapter extends RecyclerView.Adapter<TreinoAdapter.ContactVie
         holder.carga.setText("Carga: "+c.getCarga()+"Kg");
         holder.repeticoes.setText("Rep: "+c.getRepeticoes());
         holder.series.setText("Séries: "+ c.getSeries());
-        //_volume = Integer.parseInt(c.getCarga()) * Integer.parseInt(c.getRepeticoes()) * Integer.parseInt(c.getSeries());
-        //holder.volume.setText("Volume total do Exercício: "+ _volume);
+        _volume = Integer.parseInt(c.getCarga()) * Integer.parseInt(c.getRepeticoes()) * Integer.parseInt(c.getSeries());
+        holder.volume.setText("Volume total do Exercício: "+ _volume);
         File imgFile = new File(c.getFoto());
         if(imgFile.exists()){
             Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
@@ -74,7 +74,7 @@ public class TreinoAdapter extends RecyclerView.Adapter<TreinoAdapter.ContactVie
             carga = v.findViewById(R.id.textoCarga);
             repeticoes = v.findViewById(R.id.textoRepeticoes);
             series = v.findViewById(R.id.textoSeries);
-
+            volume = v.findViewById(R.id.textoVolume);
         }
 
     }

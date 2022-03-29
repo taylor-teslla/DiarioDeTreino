@@ -5,7 +5,8 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditActivity">
+    tools:context=".EditActivity"
+    android:radius= "5dp">
 
     <ImageButton
         android:id="@+id/imageExercicio"
@@ -28,22 +29,28 @@
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:textColorHint="#757575"
+        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageExercicio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageExercicio"
         app:layout_constraintTop_toTopOf="@+id/imageExercicio"
-        tools:ignore="TouchTargetSizeCheck" />
+        tools:ignore="TouchTargetSizeCheck"
+        android:background="@drawable/rounded_corner"/>
 
     <EditText
         android:id="@+id/obsExercicio"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_corner"
         android:ems="10"
         android:hint="@string/observaco"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:minHeight="48dp"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,11 +61,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_corner"
         android:ems="10"
         android:hint="@string/carga_em_kg"
         android:importantForAutofill="no"
         android:inputType="number"
         android:minHeight="48dp"
+        android:padding="10dp"
         android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,11 +83,13 @@
         android:importantForAutofill="no"
         android:inputType="number"
         android:minHeight="48dp"
+        android:padding="10dp"
         android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cargaExercicio" />
+        app:layout_constraintTop_toBottomOf="@+id/cargaExercicio"
+        android:background="@drawable/rounded_corner"/>
 
     <EditText
         android:id="@+id/seriesExercicio"
@@ -90,19 +101,22 @@
         android:importantForAutofill="no"
         android:inputType="number"
         android:minHeight="48dp"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/repExercicio" />
+        app:layout_constraintTop_toBottomOf="@+id/repExercicio"
+        android:background="@drawable/rounded_corner"/>
 
     <Button
         android:id="@+id/buttonSalvar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:background="@color/purple_200"
+        android:layout_width="157dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_corner"
         android:color="@color/purple_200"
         android:text="@string/salvar"
-        android:textSize="16sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,8 +125,8 @@
 
     <Button
         android:id="@+id/buttonCalcular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="196dp"
+        android:layout_height="48dp"
         android:layout_marginTop="24dp"
         android:text="@string/calcular_volume_do_exercicio"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -122,16 +136,20 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSalvar" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSalvar"
+        tools:ignore="TextContrastCheck" />
 
     <TextView
         android:id="@+id/textVolumeTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_corner"
+        android:padding="10dp"
         android:text="@string/volume_do_exercicio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonCalcular" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonCalcular"
+        tools:ignore="TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

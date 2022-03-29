@@ -89,8 +89,13 @@ public class EditActivity extends AppCompatActivity {
             exercicio.setRepeticoes(repeticoes.getText().toString());
             exercicio.setSeries(series.getText().toString());
 
-            if (exercicio.getNome().equals("")){
-                Toast.makeText(EditActivity.this, "Necessario passar o nome!", Toast.LENGTH_SHORT).show();
+            if (exercicio.getNome().equals("") ||
+                    exercicio.getObservacao().equals("") ||
+                    exercicio.getCarga().equals("") ||
+                    exercicio.getRepeticoes().equals("") ||
+                    exercicio.getSeries().equals("")
+            ){
+                Toast.makeText(EditActivity.this, "Necessario passar todos os dados!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -103,10 +108,15 @@ public class EditActivity extends AppCompatActivity {
         ValorCargaTotal = findViewById(R.id.textVolumeTotal);
 
         calcular.setOnClickListener(view -> {
-            Volume = Integer.parseInt(carga.getText().toString()) *
-                     Integer.parseInt(series.getText().toString()) *
-                     Integer.parseInt(repeticoes.getText().toString());
-            ValorCargaTotal.setText(new StringBuilder().append("Volume do exercício: ").append(Volume).append("kg").toString());
+            if (carga.getText() != null && series.getText() != null && repeticoes.getText() != null){
+                Volume = Integer.parseInt(carga.getText().toString()) *
+                        Integer.parseInt(series.getText().toString()) *
+                        Integer.parseInt(repeticoes.getText().toString());
+                ValorCargaTotal.setText(new StringBuilder().append("Volume do exercício: ").append(Volume).append("kg").toString());
+            } else {
+                Toast.makeText(EditActivity.this, "Erro no cálculo de Volume, verifique os valores!", Toast.LENGTH_SHORT).show();
+            }
+
         });
 
     }
