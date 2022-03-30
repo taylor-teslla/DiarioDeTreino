@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -199,6 +198,12 @@ public class EditActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     clicaTirarFoto();
                 }
+                break;
+            case GALERIA:
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    clicaCarregaImagem();
+                }
+                break;
         }
     }
 
@@ -220,25 +225,36 @@ public class EditActivity extends AppCompatActivity {
             }
         } else if (requestCode == CAMERA) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            exercicio.setFoto(saveImage(bitmap));
+            try {
+                exercicio.setFoto(saveImage(bitmap));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             foto.setImageBitmap(bitmap);
         }
 
     }
 
-    private String saveImage(Bitmap bitmap){
+    private String saveImage(Bitmap bitmap) throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
         String IMAGE_DIR = "/FotosContatos";
         File directory = new File(Environment.getExternalStorageDirectory() + IMAGE_DIR);
 
-        if(!directory.exists()){
-            directory.mkdirs();
+        boolean isDirectoryCreated= directory.mkdir();
+
+        if (!isDirectoryCreated) {
+            throw new IOException("Erro ao criar diretório");
         }
 
         try {
             File f = new File(directory, Calendar.getInstance().getTimeInMillis() + ".jpg");
-            f.createNewFile();
+
+            boolean fileCreated = f.createNewFile();
+
+            if (!fileCreated) {
+                throw new IOException("Erro ao salvar Imagem");
+            }
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
 
