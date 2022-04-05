@@ -238,7 +238,7 @@ public class EditActivity extends AppCompatActivity {
     private String saveImage(Bitmap bitmap) throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
-        String IMAGE_DIR = "/FotosContatos";
+        String IMAGE_DIR = "/Fotos";
         File directory = new File(Environment.getExternalStorageDirectory() + IMAGE_DIR);
 
         boolean isDirectoryCreated= directory.mkdir();
